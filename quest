@@ -1,0 +1,72 @@
+// Function to click on the first button with the provided text
+function clickFirstButtonWithText(text) {
+  const buttons = document.getElementsByTagName("button");
+
+  for (let i = 0; i < buttons.length; i++) {
+    const button = buttons[i];
+    if (button.textContent.trim() === text) {
+      button.click();
+      console.log("Clicked the first button with text:", text);
+      return;
+    }
+  }
+
+  console.log("Button with text not found:", text);
+}
+
+
+
+// Function to select the quiz option
+function selectQuizOption(option) {
+  const quizItems = document.querySelectorAll(".quiz-choice-item");
+
+  quizItems.forEach((item) => {
+    const optionText = item.querySelector(".flex-grow-1").textContent.trim();
+
+    if (optionText.startsWith(option + ".")) {
+      item.click();
+    }
+  });
+
+  console.log("Selected option:", option);
+}
+
+// Function to iterate over the quiz options and perform the actions
+// Function to iterate over the quiz options and perform the actions
+async function iterateQuizOptions(options) {
+  console.log(options);
+  for (let i = 0; i < options.length; i++) {
+    
+    const option = options[i];
+    console.log(option)
+    await new Promise((resolve) => setTimeout(resolve, 1000)); // Delay for 1 second
+    selectQuizOption(option);
+
+    await new Promise((resolve) => setTimeout(resolve, 750)); // Delay for 1 second
+    clickFirstButtonWithText("Submit");
+    clickFirstButtonWithText("Next");
+
+    await new Promise((resolve) => setTimeout(resolve, 750)); // Delay for 1 second
+  }
+  
+}
+
+// Quiz options
+const quizEasy = ["A", "A", "B", "A", "D", "A", "C", "B", "D", "C", "D"];
+const quizMedium = ["B", "A", "C", "A", "C", "A", "C", "B", "A", "A", "A", "C", "D", "B"];
+const quizHard = ["B", "B", "A", "C", "A", "C", "B", "C", "B", "C", "C", "B"];
+
+// Function to start quizzes sequentially
+async function startQuizzes() {
+  clickFirstButtonWithText("Start");
+  await iterateQuizOptions(quizEasy);
+
+  clickFirstButtonWithText("Start");
+  await iterateQuizOptions(quizMedium);
+
+  clickFirstButtonWithText("Start");
+  await iterateQuizOptions(quizHard);
+}
+
+// Call the function to start the quizzes sequentially
+startQuizzes();
